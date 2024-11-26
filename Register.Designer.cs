@@ -38,7 +38,7 @@
             chkPassword = new CheckBox();
             btnRegister = new Button();
             btnClear = new Button();
-            txtAlready = new Label();
+            lblAlready = new Label();
             lblBackLogin = new Label();
             txtId = new TextBox();
             lblId = new Label();
@@ -94,6 +94,7 @@
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(342, 31);
             txtPassword.TabIndex = 4;
+            txtPassword.UseSystemPasswordChar = true;
             // 
             // lblPassword
             // 
@@ -118,6 +119,7 @@
             txtConfirm.Name = "txtConfirm";
             txtConfirm.Size = new Size(342, 31);
             txtConfirm.TabIndex = 6;
+            txtConfirm.UseSystemPasswordChar = true;
             // 
             // lblConfirm
             // 
@@ -145,6 +147,7 @@
             chkPassword.TabIndex = 7;
             chkPassword.Text = "Show password";
             chkPassword.UseVisualStyleBackColor = true;
+            chkPassword.CheckedChanged += chkPassword_CheckedChanged;
             // 
             // btnRegister
             // 
@@ -160,7 +163,7 @@
             btnRegister.TabIndex = 8;
             btnRegister.Text = "REGISTER";
             btnRegister.UseVisualStyleBackColor = false;
-            btnRegister.Click += this.btnRegister_Click;
+            btnRegister.Click += btnRegister_Click;
             // 
             // btnClear
             // 
@@ -177,20 +180,21 @@
             btnClear.TabIndex = 9;
             btnClear.Text = "CLEAR";
             btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
             // 
-            // txtAlready
+            // lblAlready
             // 
-            txtAlready.AutoSize = true;
-            txtAlready.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txtAlready.ForeColor = Color.CornflowerBlue;
-            txtAlready.Location = new Point(130, 574);
-            txtAlready.Margin = new Padding(20, 0, 3, 0);
-            txtAlready.Name = "txtAlready";
-            txtAlready.Padding = new Padding(0, 10, 0, 0);
-            txtAlready.Size = new Size(234, 38);
-            txtAlready.TabIndex = 10;
-            txtAlready.Text = "Already Have An Account";
-            txtAlready.TextAlign = ContentAlignment.MiddleCenter;
+            lblAlready.AutoSize = true;
+            lblAlready.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            lblAlready.ForeColor = Color.CornflowerBlue;
+            lblAlready.Location = new Point(130, 574);
+            lblAlready.Margin = new Padding(20, 0, 3, 0);
+            lblAlready.Name = "lblAlready";
+            lblAlready.Padding = new Padding(0, 10, 0, 0);
+            lblAlready.Size = new Size(234, 38);
+            lblAlready.TabIndex = 10;
+            lblAlready.Text = "Already Have An Account";
+            lblAlready.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblBackLogin
             // 
@@ -207,6 +211,7 @@
             lblBackLogin.TabIndex = 11;
             lblBackLogin.Text = "Back To LOGIN";
             lblBackLogin.TextAlign = ContentAlignment.MiddleCenter;
+            lblBackLogin.Click += lblBackLogin_Click;
             // 
             // txtId
             // 
@@ -255,7 +260,7 @@
             Controls.Add(txtId);
             Controls.Add(lblId);
             Controls.Add(lblBackLogin);
-            Controls.Add(txtAlready);
+            Controls.Add(lblAlready);
             Controls.Add(btnClear);
             Controls.Add(btnRegister);
             Controls.Add(chkPassword);
@@ -287,7 +292,7 @@
         private CheckBox chkPassword;
         private Button btnRegister;
         private Button btnClear;
-        private Label txtAlready;
+        private Label lblAlready;
         private Label lblBackLogin;
         private TextBox txtId;
         private Label lblId;
