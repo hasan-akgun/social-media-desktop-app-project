@@ -6,11 +6,12 @@ namespace social_media
     public partial class Register : Form
     {
         MySqlConnection connection;
+        Login loginform;
         public Register()
         {
             InitializeComponent();
             connection = new MySqlConnection("server=localhost;user=root;database=user_database;password=A98x%kG1n.45#;");
-
+            loginform = new Login();
         }
         private void Register_Load(object sender, EventArgs e)
         {
@@ -37,6 +38,7 @@ namespace social_media
             string password = txtPassword.Text;
             string id = txtId.Text;
 
+            // GÝRDÝLERÝN GEÇERLÝ OLUP OLMADIÐININ KONTROLÜ
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(id))
             {
                 MessageBox.Show("Please Enter ID, Name and Password!");
@@ -63,6 +65,7 @@ namespace social_media
                 return;
             }
 
+            //VERÝTABANINA KAYIT ÝÞLEMÝ
             try
             {
                 string query = "INSERT INTO users (id, username, password) VALUES (@id, @username, @password)";
@@ -76,9 +79,9 @@ namespace social_media
                 if (result > 0)
                 {
                     MessageBox.Show("Registiration is succesfull");
-                    Login loginform = new Login();
                     this.Hide();
                     loginform.Show();
+                    connection.Close();
                 }
                 else
                 {
@@ -92,6 +95,7 @@ namespace social_media
             }
         }
 
+        //ÞÝFRE GÖSTER/GÝZLE
         private void chkPassword_CheckedChanged(object sender, EventArgs e)
         {
             txtPassword.UseSystemPasswordChar = !(txtPassword.UseSystemPasswordChar);
@@ -108,9 +112,9 @@ namespace social_media
 
         private void lblBackLogin_Click(object sender, EventArgs e)
         {
-            Login loginform = new Login();
             this.Hide();
             loginform.Show();
+            connection.Close();
         }
     }
 }
