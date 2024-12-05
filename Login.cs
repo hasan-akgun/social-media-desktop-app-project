@@ -15,11 +15,11 @@ namespace social_media
     {
         MySqlConnection connection;
         Register registerform;
+
         public Login()
         {
             InitializeComponent();
             connection = new MySqlConnection("server=localhost;user=root;database=user_database;password=A98x%kG1n.45#;");
-
         }
 
 
@@ -64,8 +64,11 @@ namespace social_media
             if (ValidateUser(id, password))
             {
                 MessageBox.Show("Login Succesfull");
+                connection.Close();
                 registerform.Close();
-                this.Close();
+                Main_Page main_Page = new Main_Page();
+                main_Page.Show();
+                this.Hide();
             }
             else
             {
