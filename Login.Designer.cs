@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             lblCreateAccount = new Label();
-            txtDontHave = new Label();
+            lblDontHave = new Label();
             btnClear = new Button();
             btnLogin = new Button();
             chkPassword = new CheckBox();
@@ -55,20 +55,21 @@
             lblCreateAccount.TabIndex = 23;
             lblCreateAccount.Text = "Create Account";
             lblCreateAccount.TextAlign = ContentAlignment.MiddleCenter;
+            lblCreateAccount.Click += lblCreateAccount_Click;
             // 
-            // txtDontHave
+            // lblDontHave
             // 
-            txtDontHave.AutoSize = true;
-            txtDontHave.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txtDontHave.ForeColor = Color.CornflowerBlue;
-            txtDontHave.Location = new Point(138, 493);
-            txtDontHave.Margin = new Padding(20, 0, 3, 0);
-            txtDontHave.Name = "txtDontHave";
-            txtDontHave.Padding = new Padding(0, 10, 0, 0);
-            txtDontHave.Size = new Size(216, 38);
-            txtDontHave.TabIndex = 22;
-            txtDontHave.Text = "Don't Have An Account";
-            txtDontHave.TextAlign = ContentAlignment.MiddleCenter;
+            lblDontHave.AutoSize = true;
+            lblDontHave.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            lblDontHave.ForeColor = Color.CornflowerBlue;
+            lblDontHave.Location = new Point(138, 493);
+            lblDontHave.Margin = new Padding(20, 0, 3, 0);
+            lblDontHave.Name = "lblDontHave";
+            lblDontHave.Padding = new Padding(0, 10, 0, 0);
+            lblDontHave.Size = new Size(216, 38);
+            lblDontHave.TabIndex = 22;
+            lblDontHave.Text = "Don't Have An Account";
+            lblDontHave.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnClear
             // 
@@ -85,6 +86,7 @@
             btnClear.TabIndex = 21;
             btnClear.Text = "CLEAR";
             btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
             // 
             // btnLogin
             // 
@@ -100,6 +102,7 @@
             btnLogin.TabIndex = 20;
             btnLogin.Text = "LOGIN";
             btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.Click += btnLogin_Click;
             // 
             // chkPassword
             // 
@@ -114,6 +117,7 @@
             chkPassword.TabIndex = 19;
             chkPassword.Text = "Show password";
             chkPassword.UseVisualStyleBackColor = true;
+            chkPassword.CheckedChanged += chkPassword_CheckedChanged;
             // 
             // txtPassword
             // 
@@ -125,6 +129,7 @@
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(342, 31);
             txtPassword.TabIndex = 16;
+            txtPassword.UseSystemPasswordChar = true;
             // 
             // lblPassword
             // 
@@ -184,7 +189,7 @@
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(486, 682);
             Controls.Add(lblCreateAccount);
-            Controls.Add(txtDontHave);
+            Controls.Add(lblDontHave);
             Controls.Add(btnClear);
             Controls.Add(btnLogin);
             Controls.Add(chkPassword);
@@ -197,6 +202,7 @@
             Name = "Login";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
+            Load += Login_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -204,7 +210,7 @@
         #endregion
 
         private Label lblCreateAccount;
-        private Label txtDontHave;
+        private Label lblDontHave;
         private Button btnClear;
         private Button btnLogin;
         private CheckBox chkPassword;

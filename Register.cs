@@ -11,10 +11,13 @@ namespace social_media
         {
             InitializeComponent();
             connection = new MySqlConnection("server=localhost;user=root;database=user_database;password=A98x%kG1n.45#;");
-            loginform = new Login();
+
         }
         private void Register_Load(object sender, EventArgs e)
         {
+
+            loginform = new Login();
+            
 
             try
             {
@@ -69,23 +72,25 @@ namespace social_media
             try
             {
                 string query = "INSERT INTO users (id, username, password) VALUES (@id, @username, @password)";
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@password", password);
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@password", password);
 
-                int result = cmd.ExecuteNonQuery();
-                if (result > 0)
-                {
-                    MessageBox.Show("Registiration is succesfull");
-                    this.Hide();
-                    loginform.Show();
-                    connection.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Registiration is unsuccesfull");
+                    int result = cmd.ExecuteNonQuery();
+                    if (result > 0)
+                    {
+                        MessageBox.Show("Registiration is succesfull");
+                        this.Hide();
+                        loginform.Show();
+                        connection.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Registiration is unsuccesfull");
+                    }
                 }
 
             }
@@ -115,6 +120,11 @@ namespace social_media
             this.Hide();
             loginform.Show();
             connection.Close();
+        }
+
+        private void txtId_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
