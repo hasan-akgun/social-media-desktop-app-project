@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel = new FlowLayoutPanel();
+            mainPanel = new FlowLayoutPanel();
             SuspendLayout();
             // 
-            // panel
+            // mainPanel
             // 
-            panel.Anchor = AnchorStyles.Top;
-            panel.AutoScroll = true;
-            panel.Location = new Point(546, 42);
-            panel.Name = "panel";
-            panel.Size = new Size(828, 923);
-            panel.TabIndex = 0;
+            mainPanel.Anchor = AnchorStyles.Top;
+            mainPanel.AutoScroll = true;
+            mainPanel.Location = new Point(546, 42);
+            mainPanel.Name = "mainPanel";
+            mainPanel.Size = new Size(828, 923);
+            mainPanel.TabIndex = 0;
             // 
             // Main_Page
             // 
@@ -46,7 +46,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1902, 1033);
-            Controls.Add(panel);
+            Controls.Add(mainPanel);
             Name = "Main_Page";
             Text = "Main_Page";
             WindowState = FormWindowState.Maximized;
@@ -56,6 +56,6 @@
 
         #endregion
 
-        private FlowLayoutPanel panel;
+        private FlowLayoutPanel mainPanel;
     }
 }
