@@ -35,10 +35,9 @@
             // 
             panel.Anchor = AnchorStyles.Top;
             panel.AutoScroll = true;
-            panel.BorderStyle = BorderStyle.FixedSingle;
-            panel.Location = new Point(546, 12);
+            panel.Location = new Point(546, 42);
             panel.Name = "panel";
-            panel.Size = new Size(828, 1009);
+            panel.Size = new Size(828, 923);
             panel.TabIndex = 0;
             // 
             // Main_Page
