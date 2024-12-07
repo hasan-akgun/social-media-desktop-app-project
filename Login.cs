@@ -1,48 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace social_media
 {
     public partial class Login : Form
     {
-        MySqlConnection connection;
         Register registerform;
 
         public Login()
         {
             InitializeComponent();
-            connection = new MySqlConnection("server=localhost;user=root;database=user_database;password=A98x%kG1n.45#;");
         }
-
-
 
         private void Login_Load(object sender, EventArgs e)
         {
             registerform = new Register();
-
-            try
-            {
-                connection.Open();
-                MessageBox.Show("Connected");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Not Connected: " + ex.Message);
-            }
-
         }
 
         private void chkPassword_CheckedChanged(object sender, EventArgs e)
         {
-            txtPassword.UseSystemPasswordChar = !(txtPassword.UseSystemPasswordChar);
+            txtPassword.UseSystemPasswordChar = !txtPassword.UseSystemPasswordChar;
         }
 
         private void lblCreateAccount_Click(object sender, EventArgs e)
@@ -53,43 +34,85 @@ namespace social_media
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            txtId.Text = "";
-            txtPassword.Text = "";
+            txtId.Clear();
+            txtPassword.Clear();
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
-            string id = txtId.Text;
-            string password = txtPassword.Text;
-            if (ValidateUser(id, password))
+            string id = txtId.Text.Trim();
+            string password = txtPassword.Text.Trim();
+
+            // Kullanıcı adı ve şifreyi kontrol et
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Login Succesfull");
-                connection.Close();
-                registerform.Close();
+                MessageBox.Show("Lütfen kullanıcı adı ve şifre giriniz!");
+                return;
+            }
+
+            // Kullanıcı doğrulama
+            if (await ValidateUser(id, password))
+            {
+                MessageBox.Show("Giriş Başarılı!");
                 Main_Page main_Page = new Main_Page();
                 main_Page.Show();
                 this.Hide();
             }
             else
             {
-                MessageBox.Show("Not valid id or password");
+                MessageBox.Show("Geçersiz kullanıcı adı veya şifre!");
             }
         }
 
-        //VERİTABANINDAKİ KULLANICIYI KARŞILAŞTIRMA
-        private bool ValidateUser(string id, string password)
+        // Kullanıcıyı doğrulayan fonksiyon
+        private async Task<bool> ValidateUser(string id, string password)
         {
-            string query = "SELECT * FROM users WHERE id = @id AND password = @password";
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            using (HttpClient client = new HttpClient())
             {
-                cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.Parameters.AddWithValue("@password", password);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                // API'ya gönderilecek veriler
+                var values = new Dictionary<string, string>
                 {
-                    return reader.HasRows;
+                    { "loginUser", id },
+                    { "loginPass", password }
+                };
+
+                // Verileri form-encoded olarak gönder
+                var content = new FormUrlEncodedContent(values);
+
+                // API'ya POST isteği gönder
+                var response = await client.PostAsync("https://oasisgamequizium.shop/OOPProject/Login.php", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // API yanıtını oku
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("API Yanıtı: " + responseString); // Yanıtı kontrol etmek için ekrana yazdır
+
+                    try
+                    {
+                        // Yanıtı dinamik olarak JSON ayrıştır
+                        dynamic responseObject = JsonConvert.DeserializeObject(responseString);
+
+                        if (responseObject.status == "success")
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show((string)responseObject.message);
+                        }
+                    }
+                    catch (JsonReaderException ex)
+                    {
+                        MessageBox.Show("JSON Ayrıştırma Hatası: " + ex.Message);
+                    }
                 }
+                else
+                {
+                    MessageBox.Show("API çağrısı başarısız oldu. Durum kodu: " + response.StatusCode);
+                }
+
+                return false;
             }
         }
     }
