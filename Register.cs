@@ -37,22 +37,22 @@ namespace social_media
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text;
+            string name = txtName.Text;
             string password = txtPassword.Text;
-            string id = txtId.Text;
+            string username = txtUsername.Text;
 
             // GÝRDÝLERÝN GEÇERLÝ OLUP OLMADIÐININ KONTROLÜ
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
             {
                 MessageBox.Show("Please Enter ID, Name and Password!");
                 return;
             }
-            else if (!Regex.IsMatch(id, @"^[a-zA-Z0-9_]+$"))
+            else if (!Regex.IsMatch(username, @"^[a-zA-Z0-9_]+$"))
             {
                 MessageBox.Show("ID can not include special characters!");
                 return;
             }
-            else if (username.Length > 20)
+            else if (name.Length > 20)
             {
                 MessageBox.Show("Username must be below 20 character!");
                 return;
@@ -75,8 +75,8 @@ namespace social_media
                 using (MySqlCommand cmd = new MySqlCommand(query, connection))
                 {
                     cmd.Parameters.Clear();
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@id", username);
+                    cmd.Parameters.AddWithValue("@username", name);
                     cmd.Parameters.AddWithValue("@password", password);
 
                     int result = cmd.ExecuteNonQuery();
@@ -109,8 +109,8 @@ namespace social_media
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            txtId.Text = "";
             txtUsername.Text = "";
+            txtName.Text = "";
             txtPassword.Text = "";
             txtConfirm.Text = "";
         }

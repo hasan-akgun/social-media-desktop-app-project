@@ -35,8 +35,8 @@
             chkPassword = new CheckBox();
             txtPassword = new TextBox();
             lblPassword = new Label();
-            txtId = new TextBox();
-            lblId = new Label();
+            txtUsername = new TextBox();
+            lbUsername = new Label();
             lblLogin = new Label();
             SuspendLayout();
             // 
@@ -144,29 +144,29 @@
             lblPassword.Text = "Password";
             lblPassword.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // txtId
+            // txtUsername
             // 
-            txtId.BackColor = Color.White;
-            txtId.BorderStyle = BorderStyle.FixedSingle;
-            txtId.Font = new Font("Segoe UI", 10.8F);
-            txtId.ForeColor = SystemColors.ControlText;
-            txtId.Location = new Point(29, 182);
-            txtId.Name = "txtId";
-            txtId.Size = new Size(342, 31);
-            txtId.TabIndex = 14;
+            txtUsername.BackColor = Color.White;
+            txtUsername.BorderStyle = BorderStyle.FixedSingle;
+            txtUsername.Font = new Font("Segoe UI", 10.8F);
+            txtUsername.ForeColor = SystemColors.ControlText;
+            txtUsername.Location = new Point(29, 182);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(342, 31);
+            txtUsername.TabIndex = 14;
             // 
-            // lblId
+            // lbUsername
             // 
-            lblId.AutoSize = true;
-            lblId.Font = new Font("Yu Gothic UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblId.ForeColor = Color.CornflowerBlue;
-            lblId.Location = new Point(29, 141);
-            lblId.Margin = new Padding(20, 0, 3, 0);
-            lblId.Name = "lblId";
-            lblId.Size = new Size(44, 38);
-            lblId.TabIndex = 13;
-            lblId.Text = "ID";
-            lblId.TextAlign = ContentAlignment.MiddleCenter;
+            lbUsername.AutoSize = true;
+            lbUsername.Font = new Font("Yu Gothic UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            lbUsername.ForeColor = Color.CornflowerBlue;
+            lbUsername.Location = new Point(29, 141);
+            lbUsername.Margin = new Padding(20, 0, 3, 0);
+            lbUsername.Name = "lbUsername";
+            lbUsername.Size = new Size(142, 38);
+            lbUsername.TabIndex = 13;
+            lbUsername.Text = "Username";
+            lbUsername.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblLogin
             // 
@@ -195,8 +195,8 @@
             Controls.Add(chkPassword);
             Controls.Add(txtPassword);
             Controls.Add(lblPassword);
-            Controls.Add(txtId);
-            Controls.Add(lblId);
+            Controls.Add(txtUsername);
+            Controls.Add(lbUsername);
             Controls.Add(lblLogin);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Login";
@@ -216,8 +216,8 @@
         private CheckBox chkPassword;
         private TextBox txtPassword;
         private Label lblPassword;
-        private TextBox txtId;
-        private Label lblId;
+        private TextBox txtUsername;
+        private Label lbUsername;
         private Label lblLogin;
     }
 }

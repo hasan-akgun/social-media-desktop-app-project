@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             getStarted = new Label();
-            lblUsername = new Label();
-            txtUsername = new TextBox();
+            lblName = new Label();
+            txtName = new TextBox();
             txtPassword = new TextBox();
             lblPassword = new Label();
             txtConfirm = new TextBox();
@@ -40,7 +40,7 @@
             btnClear = new Button();
             lblAlready = new Label();
             lblBackLogin = new Label();
-            txtId = new TextBox();
+            txtUsername = new TextBox();
             lblId = new Label();
             lblBeforeID = new Label();
             SuspendLayout();
@@ -60,29 +60,29 @@
             getStarted.TextAlign = ContentAlignment.MiddleCenter;
             getStarted.Click += getStarted_Click;
             // 
-            // lblUsername
+            // lblName
             // 
-            lblUsername.AutoSize = true;
-            lblUsername.Font = new Font("Yu Gothic UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblUsername.ForeColor = Color.CornflowerBlue;
-            lblUsername.Location = new Point(29, 141);
-            lblUsername.Margin = new Padding(20, 0, 3, 0);
-            lblUsername.Name = "lblUsername";
-            lblUsername.Size = new Size(142, 38);
-            lblUsername.TabIndex = 1;
-            lblUsername.Text = "Username";
-            lblUsername.TextAlign = ContentAlignment.MiddleCenter;
+            lblName.AutoSize = true;
+            lblName.Font = new Font("Yu Gothic UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            lblName.ForeColor = Color.CornflowerBlue;
+            lblName.Location = new Point(29, 141);
+            lblName.Margin = new Padding(20, 0, 3, 0);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(91, 38);
+            lblName.TabIndex = 1;
+            lblName.Text = "Name";
+            lblName.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // txtUsername
+            // txtName
             // 
-            txtUsername.BackColor = Color.White;
-            txtUsername.BorderStyle = BorderStyle.FixedSingle;
-            txtUsername.Font = new Font("Segoe UI", 10.8F);
-            txtUsername.ForeColor = SystemColors.ControlText;
-            txtUsername.Location = new Point(29, 182);
-            txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(342, 31);
-            txtUsername.TabIndex = 2;
+            txtName.BackColor = Color.White;
+            txtName.BorderStyle = BorderStyle.FixedSingle;
+            txtName.Font = new Font("Segoe UI", 10.8F);
+            txtName.ForeColor = SystemColors.ControlText;
+            txtName.Location = new Point(29, 182);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(342, 31);
+            txtName.TabIndex = 2;
             // 
             // txtPassword
             // 
@@ -213,18 +213,18 @@
             lblBackLogin.TextAlign = ContentAlignment.MiddleCenter;
             lblBackLogin.Click += lblBackLogin_Click;
             // 
-            // txtId
+            // txtUsername
             // 
-            txtId.BackColor = Color.White;
-            txtId.BorderStyle = BorderStyle.FixedSingle;
-            txtId.Font = new Font("Segoe UI", 10.8F);
-            txtId.ForeColor = SystemColors.ControlText;
-            txtId.Location = new Point(57, 110);
-            txtId.Margin = new Padding(0, 3, 3, 3);
-            txtId.Name = "txtId";
-            txtId.Size = new Size(307, 31);
-            txtId.TabIndex = 13;
-            txtId.TextChanged += txtId_TextChanged;
+            txtUsername.BackColor = Color.White;
+            txtUsername.BorderStyle = BorderStyle.FixedSingle;
+            txtUsername.Font = new Font("Segoe UI", 10.8F);
+            txtUsername.ForeColor = SystemColors.ControlText;
+            txtUsername.Location = new Point(57, 110);
+            txtUsername.Margin = new Padding(0, 3, 3, 3);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(307, 31);
+            txtUsername.TabIndex = 13;
+            txtUsername.TextChanged += txtId_TextChanged;
             // 
             // lblId
             // 
@@ -234,9 +234,9 @@
             lblId.Location = new Point(29, 69);
             lblId.Margin = new Padding(20, 0, 3, 0);
             lblId.Name = "lblId";
-            lblId.Size = new Size(44, 38);
+            lblId.Size = new Size(142, 38);
             lblId.TabIndex = 12;
-            lblId.Text = "ID";
+            lblId.Text = "Username";
             lblId.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblBeforeID
@@ -258,7 +258,7 @@
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(486, 682);
             Controls.Add(lblBeforeID);
-            Controls.Add(txtId);
+            Controls.Add(txtUsername);
             Controls.Add(lblId);
             Controls.Add(lblBackLogin);
             Controls.Add(lblAlready);
@@ -269,8 +269,8 @@
             Controls.Add(lblConfirm);
             Controls.Add(txtPassword);
             Controls.Add(lblPassword);
-            Controls.Add(txtUsername);
-            Controls.Add(lblUsername);
+            Controls.Add(txtName);
+            Controls.Add(lblName);
             Controls.Add(getStarted);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Register";
@@ -284,8 +284,8 @@
         #endregion
 
         private Label getStarted;
-        private Label lblUsername;
-        private TextBox txtUsername;
+        private Label lblName;
+        private TextBox txtName;
         private TextBox txtPassword;
         private Label lblPassword;
         private TextBox txtConfirm;
@@ -295,7 +295,7 @@
         private Button btnClear;
         private Label lblAlready;
         private Label lblBackLogin;
-        private TextBox txtId;
+        private TextBox txtUsername;
         private Label lblId;
         private Label lblBeforeID;
     }

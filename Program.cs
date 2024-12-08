@@ -12,7 +12,7 @@ namespace social_media
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            Application.Run(new Login());
+            Application.Run(new Main_Page());
             
 
 

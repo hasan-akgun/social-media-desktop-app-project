@@ -36,6 +36,7 @@ namespace social_media
                 Size = new Size(80, 80), // PictureBox boyutları
                 SizeMode = PictureBoxSizeMode.StretchImage, // Resim boyutlama modu
                 BackColor = Color.Blue,
+                Cursor = Cursors.Hand,
             };
 
             Button like = new Button()
@@ -93,18 +94,18 @@ namespace social_media
                 BorderStyle = BorderStyle.None
             };
 
+            Label lblName = new Label();
+            lblName.Text = "name";
+            lblName.AutoSize = true;
+            lblName.Margin = new Padding(0, 1, 0, 0);
+            lblName.Font = new Font("Arial", 15, FontStyle.Bold);
+
             Label lblUsername = new Label();
-            lblUsername.Text = "username";
+            lblUsername.Text = "@username";
             lblUsername.AutoSize = true;
             lblUsername.Margin = new Padding(0, 1, 0, 0);
-            lblUsername.Font = new Font("Arial", 15, FontStyle.Bold);
-
-            Label lblId = new Label();
-            lblId.Text = "@id";
-            lblId.AutoSize = true;
-            lblId.Margin = new Padding(0, 1, 0, 0);
-            lblId.Font = new Font("Arial", 15, FontStyle.Regular);
-            lblId.ForeColor = Color.Gray;
+            lblUsername.Font = new Font("Arial", 15, FontStyle.Regular);
+            lblUsername.ForeColor = Color.Gray;
 
 
 
@@ -112,8 +113,8 @@ namespace social_media
             panel.Controls.Add(postPanel);
             postPanel.Controls.Add(avatarPanel);
             postPanel.Controls.Add(labelPanel);
+            labelPanel.Controls.Add(lblName);
             labelPanel.Controls.Add(lblUsername);
-            labelPanel.Controls.Add(lblId);
             labelPanel.Controls.Add(textPanel);
             avatarPanel.Controls.Add(avatar);
             textPanel.Controls.Add(postText);

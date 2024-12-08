@@ -15,7 +15,6 @@ namespace social_media
     {
         post_manager post_manager;
         post_structure post_structure;
-
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
 
@@ -25,6 +24,8 @@ namespace social_media
             this.FormClosing += Main_Page_FormClosing;
             post_manager = new post_manager();
             post_structure = new post_structure();
+
+
 
         }
 
@@ -38,7 +39,7 @@ namespace social_media
                 post_structure.AddPost(mainPanel, content, i);
 
                 //Caret silme
-                RichTextBox post = FindControlRecursive(this, $"Post{i}") as RichTextBox;
+                RichTextBox? post = FindControlRecursive(mainPanel, $"Post{i}") as RichTextBox;
                 if (post != null)
                 {
                     this.MouseMove += (sender, e) => HideCaret(post.Handle);
@@ -48,10 +49,8 @@ namespace social_media
                 {
                     MessageBox.Show("");
                 }
+
             };
-           
-
-
 
         }
 
@@ -79,5 +78,9 @@ namespace social_media
             return null;
         }
 
+        private void createPostButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -34,24 +34,24 @@ namespace social_media
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            txtId.Clear();
+            txtUsername.Clear();
             txtPassword.Clear();
         }
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
-            string id = txtId.Text.Trim();
+            string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
 
             // Kullanıcı adı ve şifreyi kontrol et
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Lütfen kullanıcı adı ve şifre giriniz!");
                 return;
             }
 
             // Kullanıcı doğrulama
-            if (await ValidateUser(id, password))
+            if (await ValidateUser(username, password))
             {
                 MessageBox.Show("Giriş Başarılı!");
                 Main_Page main_Page = new Main_Page();
