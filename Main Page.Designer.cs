@@ -31,7 +31,7 @@
             mainPanel = new FlowLayoutPanel();
             userAvatar = new PictureBox();
             label1 = new Label();
-            label2 = new Label();
+            lblUsername = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             numFollowers = new Label();
             followers = new Label();
@@ -88,16 +88,16 @@
             label1.TabIndex = 2;
             label1.Text = "name";
             // 
-            // label2
+            // lblUsername
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Arial", 15F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            label2.ForeColor = Color.Gray;
-            label2.Location = new Point(102, 243);
-            label2.Name = "label2";
-            label2.Size = new Size(150, 28);
-            label2.TabIndex = 3;
-            label2.Text = "@username";
+            lblUsername.AutoSize = true;
+            lblUsername.Font = new Font("Arial", 15F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            lblUsername.ForeColor = Color.Gray;
+            lblUsername.Location = new Point(102, 243);
+            lblUsername.Name = "lblUsername";
+            lblUsername.Size = new Size(150, 28);
+            lblUsername.TabIndex = 3;
+            lblUsername.Text = "@username";
             // 
             // flowLayoutPanel1
             // 
@@ -220,6 +220,7 @@
             btnSend.TabIndex = 4;
             btnSend.Text = "send";
             btnSend.UseVisualStyleBackColor = false;
+            btnSend.Click += btnSend_Click;
             // 
             // button1
             // 
@@ -390,11 +391,10 @@
             Controls.Add(createPostButton);
             Controls.Add(flowLayoutPanel2);
             Controls.Add(flowLayoutPanel1);
-            Controls.Add(label2);
+            Controls.Add(lblUsername);
             Controls.Add(label1);
             Controls.Add(userAvatar);
             Controls.Add(mainPanel);
-            Cursor = Cursors.Hand;
             Name = "Main_Page";
             Text = "Main_Page";
             WindowState = FormWindowState.Maximized;
@@ -417,7 +417,7 @@
         private FlowLayoutPanel mainPanel;
         private PictureBox userAvatar;
         private Label label1;
-        private Label label2;
+        private Label lblUsername;
         private FlowLayoutPanel flowLayoutPanel1;
         private Label numFollowers;
         private Label followers;

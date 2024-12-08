@@ -7,13 +7,16 @@ using Newtonsoft.Json;
 
 namespace social_media
 {
+
     public partial class Login : Form
     {
         Register registerform;
-
+        public string Username { get; set; }
         public Login()
         {
             InitializeComponent();
+            txtPassword.KeyPress += TextBox_KeyPress;
+
         }
 
         private void Login_Load(object sender, EventArgs e)
@@ -43,6 +46,7 @@ namespace social_media
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
 
+
             // Kullanıcı adı ve şifreyi kontrol et
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -53,8 +57,9 @@ namespace social_media
             // Kullanıcı doğrulama
             if (await ValidateUser(username, password))
             {
+                Username = username;
                 MessageBox.Show("Giriş Başarılı!");
-                Main_Page main_Page = new Main_Page();
+                Main_Page main_Page = new Main_Page(this);
                 main_Page.Show();
                 this.Hide();
             }
@@ -64,6 +69,15 @@ namespace social_media
             }
         }
 
+
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Boşluk karakteri tespit edilirse işlemi iptal etme
+            if (e.KeyChar == (char)Keys.Space)
+            {
+                e.Handled = true; // Boşluk karakterini iptal et
+            }
+        }
         // Kullanıcıyı doğrulayan fonksiyon
         private async Task<bool> ValidateUser(string id, string password)
         {

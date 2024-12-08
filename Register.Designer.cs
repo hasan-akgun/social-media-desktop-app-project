@@ -224,7 +224,6 @@
             txtUsername.Name = "txtUsername";
             txtUsername.Size = new Size(307, 31);
             txtUsername.TabIndex = 13;
-            txtUsername.TextChanged += txtId_TextChanged;
             // 
             // lblId
             // 

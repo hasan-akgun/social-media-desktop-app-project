@@ -1,7 +1,10 @@
+using System.Security.Cryptography.X509Certificates;
+
 namespace social_media
 {
     internal static class Program
     {
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -12,9 +15,8 @@ namespace social_media
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            Application.Run(new Main_Page());
+            Application.Run(new Login());
             
-
 
             
         }

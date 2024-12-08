@@ -1,33 +1,19 @@
-using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
-
+using Newtonsoft.Json;
 namespace social_media
 {
     public partial class Register : Form
     {
-        MySqlConnection connection;
         Login loginform;
         public Register()
         {
             InitializeComponent();
-            connection = new MySqlConnection("server=localhost;user=root;database=user_database;password=A98x%kG1n.45#;");
-
+            txtPassword.KeyPress += TextBox_KeyPress;
+            txtConfirm.KeyPress += TextBox_KeyPress;
         }
         private void Register_Load(object sender, EventArgs e)
         {
-
-            loginform = new Login();
-            
-
-            try
-            {
-                connection.Open();
-                MessageBox.Show("Connected");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Not Connected: " + ex.Message);
-            }
+            loginform = new Login();        
         }
 
         private void getStarted_Click(object sender, EventArgs e)
@@ -35,11 +21,11 @@ namespace social_media
 
         }
 
-        private void btnRegister_Click(object sender, EventArgs e)
+        private async void btnRegister_Click(object sender, EventArgs e)
         {
-            string name = txtName.Text;
+            string name = txtName.Text.Trim();
             string password = txtPassword.Text;
-            string username = txtUsername.Text;
+            string username = txtUsername.Text.Trim();
 
             // GÝRDÝLERÝN GEÇERLÝ OLUP OLMADIÐININ KONTROLÜ
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
@@ -67,37 +53,13 @@ namespace social_media
                 MessageBox.Show("Check the password!");
                 return;
             }
-
-            //VERÝTABANINA KAYIT ÝÞLEMÝ
-            try
+            if (await RegisterUser(username, password, name))
             {
-                string query = "INSERT INTO users (id, username, password) VALUES (@id, @username, @password)";
-                using (MySqlCommand cmd = new MySqlCommand(query, connection))
-                {
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.AddWithValue("@id", username);
-                    cmd.Parameters.AddWithValue("@username", name);
-                    cmd.Parameters.AddWithValue("@password", password);
-
-                    int result = cmd.ExecuteNonQuery();
-                    if (result > 0)
-                    {
-                        MessageBox.Show("Registiration is succesfull");
-                        this.Hide();
-                        loginform.Show();
-                        connection.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Registiration is unsuccesfull");
-                    }
-                }
-
+                MessageBox.Show("Registiration is succesfull");
+                this.Hide();
+                loginform.Show();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Registiration error: " + ex.Message);
-            }
+            
         }
 
         //ÞÝFRE GÖSTER/GÝZLE
@@ -119,12 +81,69 @@ namespace social_media
         {
             this.Hide();
             loginform.Show();
-            connection.Close();
         }
 
-        private void txtId_TextChanged(object sender, EventArgs e)
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            // Boþluk karakteri tespit edilirse iþlemi iptal etme
+            if (e.KeyChar == (char)Keys.Space)
+            {
+                e.Handled = true; // Boþluk karakterini iptal et
+            }
         }
+
+
+        private async Task<bool> RegisterUser(string username, string password, string name)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                // API'ya gönderilecek veriler
+                var values = new Dictionary<string, string>
+                {
+                    { "loginUser", username },
+                    { "loginName", name },
+                    { "loginPass", password },
+                };
+
+                // Verileri form-encoded olarak gönder
+                var content = new FormUrlEncodedContent(values);
+
+                // API'ya POST isteði gönder
+                var response = await client.PostAsync("https://oasisgamequizium.shop/OOPProject/Register.php", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // API yanýtýný oku
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("API Yanýtý: " + responseString); // Yanýtý kontrol etmek için ekrana yazdýr
+
+                    try
+                    {
+                        // Yanýtý dinamik olarak JSON ayrýþtýr
+                        dynamic responseObject = JsonConvert.DeserializeObject(responseString);
+
+                        if (responseObject.status == "success")
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show((string)responseObject.message);
+                        }
+                    }
+                    catch (JsonReaderException ex)
+                    {
+                        MessageBox.Show("JSON Ayrýþtýrma Hatasý: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("API çaðrýsý baþarýsýz oldu. Durum kodu: " + response.StatusCode);
+                }
+
+                return false;
+            }
+        }
+
     }
 }

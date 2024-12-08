@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,26 +14,32 @@ namespace social_media
 {
     public partial class Main_Page : Form
     {
+
         post_manager post_manager;
         post_structure post_structure;
+        Login login;
+
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
 
         private int pre = 0;
         private int numchar = 300;
 
-        public Main_Page()
+        public Main_Page(Login loginform)
         {
             InitializeComponent();
             this.FormClosing += Main_Page_FormClosing;
             post_manager = new post_manager();
             post_structure = new post_structure();
+            login = loginform;
             rtxbSendingPost.TextChanged += RichTextBox_TextChanged;
-
         }
 
         private void Main_Page_Load(object sender, EventArgs e)
         {
+
+            lblUsername.Text = "@" + login.Username;
+
             string[] Posts = post_manager.posts;
             int i = 0;
             foreach (string content in Posts)
@@ -126,6 +133,69 @@ namespace social_media
         private void button1_Click(object sender, EventArgs e)
         {
             createPanel.Hide();
+        }
+
+        private async void btnSend_Click(object sender, EventArgs e)
+        {
+            
+            if (await RegisterUser(login.Username, rtxbSendingPost))
+            {
+                MessageBox.Show("Post sent");
+            }
+            else
+                MessageBox.Show("Error");
+        }
+
+        private async Task<bool> RegisterUser(string username, RichTextBox richTextBox)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string rtfContent = richTextBox.Rtf;
+                // API'ya gönderilecek veriler
+                var values = new Dictionary<string, string>
+                {
+                    { "loginUser", username },
+                    { "postContent", rtfContent },
+                };
+
+                // Verileri form-encoded olarak gönder
+                var content = new FormUrlEncodedContent(values);
+
+                // API'ya POST isteği gönder
+                var response = await client.PostAsync("https://oasisgamequizium.shop/OOPProject/Posts/PostNewPost.php", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // API yanıtını oku
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("API Yanıtı: " + responseString); // Yanıtı kontrol etmek için ekrana yazdır
+
+                    try
+                    {
+                        // Yanıtı dinamik olarak JSON ayrıştır
+                        dynamic responseObject = JsonConvert.DeserializeObject(responseString);
+
+                        if (responseObject.status == "success")
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show((string)responseObject.message);
+                        }
+                    }
+                    catch (JsonReaderException ex)
+                    {
+                        MessageBox.Show("JSON Ayrıştırma Hatası: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("API çağrısı başarısız oldu. Durum kodu: " + response.StatusCode);
+                }
+
+                return false;
+            }
         }
     }
 }
