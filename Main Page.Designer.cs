@@ -39,16 +39,31 @@
             numFollowing = new Label();
             following = new Label();
             createPostButton = new Button();
+            createPanel = new TableLayoutPanel();
+            btnClear = new Button();
+            btnSend = new Button();
+            button1 = new Button();
+            rtxbSendingPost = new RichTextBox();
+            numChar = new Label();
+            flowLayoutPanel3 = new FlowLayoutPanel();
+            btnHeart = new Button();
+            btnSmile = new Button();
+            btnLaugh = new Button();
+            btnShocked = new Button();
+            btnSad = new Button();
+            btnCry = new Button();
+            btnThankfull = new Button();
             ((System.ComponentModel.ISupportInitialize)userAvatar).BeginInit();
             flowLayoutPanel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
+            createPanel.SuspendLayout();
+            flowLayoutPanel3.SuspendLayout();
             SuspendLayout();
             // 
             // mainPanel
             // 
-            mainPanel.Anchor = AnchorStyles.Top;
             mainPanel.AutoScroll = true;
-            mainPanel.Location = new Point(546, 42);
+            mainPanel.Location = new Point(553, 42);
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(828, 923);
             mainPanel.TabIndex = 0;
@@ -154,12 +169,224 @@
             createPostButton.UseVisualStyleBackColor = true;
             createPostButton.Click += createPostButton_Click;
             // 
+            // createPanel
+            // 
+            createPanel.BackColor = Color.CornflowerBlue;
+            createPanel.ColumnCount = 4;
+            createPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75F));
+            createPanel.ColumnStyles.Add(new ColumnStyle());
+            createPanel.ColumnStyles.Add(new ColumnStyle());
+            createPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
+            createPanel.Controls.Add(btnClear, 0, 1);
+            createPanel.Controls.Add(btnSend, 3, 1);
+            createPanel.Controls.Add(button1, 3, 0);
+            createPanel.Controls.Add(rtxbSendingPost, 2, 1);
+            createPanel.Controls.Add(numChar, 3, 2);
+            createPanel.Controls.Add(flowLayoutPanel3, 2, 2);
+            createPanel.Location = new Point(554, 260);
+            createPanel.Name = "createPanel";
+            createPanel.RowCount = 3;
+            createPanel.RowStyles.Add(new RowStyle());
+            createPanel.RowStyles.Add(new RowStyle());
+            createPanel.RowStyles.Add(new RowStyle());
+            createPanel.Size = new Size(811, 407);
+            createPanel.TabIndex = 10;
+            createPanel.Visible = false;
+            createPanel.Paint += createPanel_Paint;
+            // 
+            // btnClear
+            // 
+            btnClear.Anchor = AnchorStyles.Left;
+            btnClear.BackColor = Color.White;
+            btnClear.FlatStyle = FlatStyle.Flat;
+            btnClear.Location = new Point(10, 150);
+            btnClear.Margin = new Padding(10, 0, 0, 0);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(60, 60);
+            btnClear.TabIndex = 11;
+            btnClear.Text = "Clear";
+            btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
+            // 
+            // btnSend
+            // 
+            btnSend.Anchor = AnchorStyles.Left;
+            btnSend.BackColor = Color.White;
+            btnSend.FlatStyle = FlatStyle.Flat;
+            btnSend.Location = new Point(736, 150);
+            btnSend.Margin = new Padding(0);
+            btnSend.Name = "btnSend";
+            btnSend.Size = new Size(60, 60);
+            btnSend.TabIndex = 4;
+            btnSend.Text = "send";
+            btnSend.UseVisualStyleBackColor = false;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(766, 3);
+            button1.Margin = new Padding(30, 3, 3, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(30, 29);
+            button1.TabIndex = 1;
+            button1.Text = "x";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // rtxbSendingPost
+            // 
+            rtxbSendingPost.BorderStyle = BorderStyle.None;
+            rtxbSendingPost.Font = new Font("Arial", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rtxbSendingPost.Location = new Point(78, 38);
+            rtxbSendingPost.MaxLength = 300;
+            rtxbSendingPost.Name = "rtxbSendingPost";
+            rtxbSendingPost.Size = new Size(650, 285);
+            rtxbSendingPost.TabIndex = 0;
+            rtxbSendingPost.Text = "";
+            // 
+            // numChar
+            // 
+            numChar.AutoSize = true;
+            numChar.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            numChar.Location = new Point(739, 326);
+            numChar.Name = "numChar";
+            numChar.Size = new Size(43, 24);
+            numChar.TabIndex = 9;
+            numChar.Text = "300";
+            // 
+            // flowLayoutPanel3
+            // 
+            flowLayoutPanel3.Controls.Add(btnHeart);
+            flowLayoutPanel3.Controls.Add(btnSmile);
+            flowLayoutPanel3.Controls.Add(btnLaugh);
+            flowLayoutPanel3.Controls.Add(btnShocked);
+            flowLayoutPanel3.Controls.Add(btnSad);
+            flowLayoutPanel3.Controls.Add(btnCry);
+            flowLayoutPanel3.Controls.Add(btnThankfull);
+            flowLayoutPanel3.Location = new Point(78, 329);
+            flowLayoutPanel3.Name = "flowLayoutPanel3";
+            flowLayoutPanel3.Size = new Size(655, 73);
+            flowLayoutPanel3.TabIndex = 8;
+            // 
+            // btnHeart
+            // 
+            btnHeart.Anchor = AnchorStyles.Left;
+            btnHeart.AutoSize = true;
+            btnHeart.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnHeart.BackColor = Color.White;
+            btnHeart.FlatStyle = FlatStyle.Flat;
+            btnHeart.Font = new Font("Arial", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btnHeart.Location = new Point(0, 0);
+            btnHeart.Margin = new Padding(0);
+            btnHeart.Name = "btnHeart";
+            btnHeart.Size = new Size(87, 63);
+            btnHeart.TabIndex = 12;
+            btnHeart.Text = "❤";
+            btnHeart.UseVisualStyleBackColor = false;
+            // 
+            // btnSmile
+            // 
+            btnSmile.Anchor = AnchorStyles.Left;
+            btnSmile.AutoSize = true;
+            btnSmile.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnSmile.BackColor = Color.White;
+            btnSmile.FlatStyle = FlatStyle.Flat;
+            btnSmile.Font = new Font("Arial", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btnSmile.Location = new Point(94, 0);
+            btnSmile.Margin = new Padding(7, 0, 0, 0);
+            btnSmile.Name = "btnSmile";
+            btnSmile.Size = new Size(87, 63);
+            btnSmile.TabIndex = 13;
+            btnSmile.Text = "😃";
+            btnSmile.UseVisualStyleBackColor = false;
+            // 
+            // btnLaugh
+            // 
+            btnLaugh.Anchor = AnchorStyles.Left;
+            btnLaugh.AutoSize = true;
+            btnLaugh.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnLaugh.BackColor = Color.White;
+            btnLaugh.FlatStyle = FlatStyle.Flat;
+            btnLaugh.Font = new Font("Arial", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btnLaugh.Location = new Point(188, 0);
+            btnLaugh.Margin = new Padding(7, 0, 0, 0);
+            btnLaugh.Name = "btnLaugh";
+            btnLaugh.Size = new Size(87, 63);
+            btnLaugh.TabIndex = 14;
+            btnLaugh.Text = "😂";
+            btnLaugh.UseVisualStyleBackColor = false;
+            // 
+            // btnShocked
+            // 
+            btnShocked.Anchor = AnchorStyles.Left;
+            btnShocked.AutoSize = true;
+            btnShocked.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnShocked.BackColor = Color.White;
+            btnShocked.FlatStyle = FlatStyle.Flat;
+            btnShocked.Font = new Font("Arial", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btnShocked.Location = new Point(282, 0);
+            btnShocked.Margin = new Padding(7, 0, 0, 0);
+            btnShocked.Name = "btnShocked";
+            btnShocked.Size = new Size(87, 63);
+            btnShocked.TabIndex = 15;
+            btnShocked.Text = "😨";
+            btnShocked.UseVisualStyleBackColor = false;
+            // 
+            // btnSad
+            // 
+            btnSad.Anchor = AnchorStyles.Left;
+            btnSad.AutoSize = true;
+            btnSad.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnSad.BackColor = Color.White;
+            btnSad.FlatStyle = FlatStyle.Flat;
+            btnSad.Font = new Font("Arial", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btnSad.Location = new Point(376, 0);
+            btnSad.Margin = new Padding(7, 0, 0, 0);
+            btnSad.Name = "btnSad";
+            btnSad.Size = new Size(87, 63);
+            btnSad.TabIndex = 16;
+            btnSad.Text = "😢";
+            btnSad.UseVisualStyleBackColor = false;
+            // 
+            // btnCry
+            // 
+            btnCry.Anchor = AnchorStyles.Left;
+            btnCry.AutoSize = true;
+            btnCry.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnCry.BackColor = Color.White;
+            btnCry.FlatStyle = FlatStyle.Flat;
+            btnCry.Font = new Font("Arial", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btnCry.Location = new Point(470, 0);
+            btnCry.Margin = new Padding(7, 0, 0, 0);
+            btnCry.Name = "btnCry";
+            btnCry.Size = new Size(87, 63);
+            btnCry.TabIndex = 17;
+            btnCry.Text = "😭";
+            btnCry.UseVisualStyleBackColor = false;
+            // 
+            // btnThankfull
+            // 
+            btnThankfull.Anchor = AnchorStyles.Left;
+            btnThankfull.AutoSize = true;
+            btnThankfull.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnThankfull.BackColor = Color.White;
+            btnThankfull.FlatStyle = FlatStyle.Flat;
+            btnThankfull.Font = new Font("Arial", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btnThankfull.Location = new Point(564, 0);
+            btnThankfull.Margin = new Padding(7, 0, 0, 0);
+            btnThankfull.Name = "btnThankfull";
+            btnThankfull.Size = new Size(87, 63);
+            btnThankfull.TabIndex = 18;
+            btnThankfull.Text = "🙏";
+            btnThankfull.UseVisualStyleBackColor = false;
+            // 
             // Main_Page
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(createPanel);
             Controls.Add(createPostButton);
             Controls.Add(flowLayoutPanel2);
             Controls.Add(flowLayoutPanel1);
@@ -167,6 +394,7 @@
             Controls.Add(label1);
             Controls.Add(userAvatar);
             Controls.Add(mainPanel);
+            Cursor = Cursors.Hand;
             Name = "Main_Page";
             Text = "Main_Page";
             WindowState = FormWindowState.Maximized;
@@ -176,6 +404,10 @@
             flowLayoutPanel1.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
             flowLayoutPanel2.PerformLayout();
+            createPanel.ResumeLayout(false);
+            createPanel.PerformLayout();
+            flowLayoutPanel3.ResumeLayout(false);
+            flowLayoutPanel3.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -193,5 +425,19 @@
         private Label numFollowing;
         private Label following;
         private Button createPostButton;
+        private TableLayoutPanel createPanel;
+        private Button button1;
+        private RichTextBox rtxbSendingPost;
+        private Button btnSend;
+        private FlowLayoutPanel flowLayoutPanel3;
+        private Label numChar;
+        private Button btnClear;
+        private Button btnHeart;
+        private Button btnSmile;
+        private Button btnLaugh;
+        private Button btnShocked;
+        private Button btnSad;
+        private Button btnCry;
+        private Button btnThankfull;
     }
 }

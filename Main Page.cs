@@ -18,14 +18,16 @@ namespace social_media
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
 
+        private int pre = 0;
+        private int numchar = 300;
+
         public Main_Page()
         {
             InitializeComponent();
             this.FormClosing += Main_Page_FormClosing;
             post_manager = new post_manager();
             post_structure = new post_structure();
-
-
+            rtxbSendingPost.TextChanged += RichTextBox_TextChanged;
 
         }
 
@@ -80,7 +82,50 @@ namespace social_media
 
         private void createPostButton_Click(object sender, EventArgs e)
         {
+            createPanel.Show();
+        }
 
+        private void createPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void RichTextBox_TextChanged(object sender, EventArgs e)
+        {
+            int curr = rtxbSendingPost.Text.Length;
+            if (curr > pre)
+            {
+                numchar--;
+                numChar.Text = numchar.ToString();
+                pre = curr;
+                if (numchar == 0)
+                {
+                    numChar.ForeColor = Color.Red;
+                }
+            }
+            else
+            {
+                numchar++;
+                numChar.Text = numchar.ToString();
+                pre = curr;
+                if (numchar != 0)
+                {
+                    numChar.ForeColor = Color.Black;
+                }
+            }
+
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            rtxbSendingPost.Rtf = null;
+            numchar = 300;
+            numChar.Text = "300";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            createPanel.Hide();
         }
     }
 }
