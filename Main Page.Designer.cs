@@ -235,6 +235,7 @@
             // 
             // rtxbSendingPost
             // 
+            rtxbSendingPost.AutoWordSelection = true;
             rtxbSendingPost.BorderStyle = BorderStyle.None;
             rtxbSendingPost.Font = new Font("Arial", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
             rtxbSendingPost.Location = new Point(78, 38);

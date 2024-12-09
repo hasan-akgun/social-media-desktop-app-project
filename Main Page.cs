@@ -15,7 +15,7 @@ namespace social_media
     public partial class Main_Page : Form
     {
 
-        post_manager post_manager;
+        PostManager PostManager;
         post_structure post_structure;
         Login login;
 
@@ -29,7 +29,7 @@ namespace social_media
         {
             InitializeComponent();
             this.FormClosing += Main_Page_FormClosing;
-            post_manager = new post_manager();
+            PostManager = new PostManager();
             post_structure = new post_structure();
             login = loginform;
             rtxbSendingPost.TextChanged += RichTextBox_TextChanged;
@@ -37,22 +37,30 @@ namespace social_media
 
         private void Main_Page_Load(object sender, EventArgs e)
         {
-
             lblUsername.Text = "@" + login.Username;
+            LoadPosts();
+        }
 
-            string[] Posts = post_manager.posts;
+        private async void LoadPosts()
+        {
+           await PostManager.LoadPostsAsync();
+           DisplayPosts();
+        }
+
+        private void DisplayPosts() 
+        {
             int i = 0;
-            foreach (string content in Posts)
+            foreach (var post in PostManager.Posts )
             {
                 i++;
-                post_structure.AddPost(mainPanel, content, i);
+                post_structure.AddPost(mainPanel, post, i);
 
                 //Caret silme
-                RichTextBox? post = FindControlRecursive(mainPanel, $"Post{i}") as RichTextBox;
-                if (post != null)
+                RichTextBox? find = FindControlRecursive(mainPanel, $"Post{i}") as RichTextBox;
+                if (find != null)
                 {
-                    this.MouseMove += (sender, e) => HideCaret(post.Handle);
-                    post.MouseClick += (sender, e) => HideCaret(post.Handle);
+                    this.MouseMove += (sender, e) => HideCaret(find.Handle);
+                    find.MouseClick += (sender, e) => HideCaret(find.Handle);
                 }
                 else
                 {
@@ -60,11 +68,7 @@ namespace social_media
                 }
 
             };
-
         }
-
-
-
 
         private void Main_Page_FormClosing(object? sender, FormClosingEventArgs e)
         {
@@ -138,15 +142,16 @@ namespace social_media
         private async void btnSend_Click(object sender, EventArgs e)
         {
             
-            if (await RegisterUser(login.Username, rtxbSendingPost))
+            if (await SendPost(login.Username, rtxbSendingPost))
             {
                 MessageBox.Show("Post sent");
+                createPanel.Hide();
             }
             else
                 MessageBox.Show("Error");
         }
 
-        private async Task<bool> RegisterUser(string username, RichTextBox richTextBox)
+        private async Task<bool> SendPost(string username, RichTextBox richTextBox)
         {
             using (HttpClient client = new HttpClient())
             {

@@ -11,10 +11,9 @@ namespace social_media
     internal class post_structure
     {
 
-        public void AddPost(Panel panel, string content, int i)
+        public void AddPost(Panel panel, Post post , int i)
         {
-
-
+            
             // RichTextBox oluşturma ve forma ekleme
             RichTextBox postText = new RichTextBox();
             postText.Name = $"Post{i}";
@@ -25,8 +24,9 @@ namespace social_media
             postText.BackColor = Color.WhiteSmoke;
             postText.Margin = new Padding(0, 0, 0, 0);
             postText.Font = new Font("Arial", 15, FontStyle.Regular); // Font ayarı          
-            postText.Text = content;
+            postText.Rtf = post.Text;
             postText.Height = 500; //Satır sayısını sayarken GetLine metodunun doğru çalışması için 
+            postText.AutoWordSelection = true;
             int dynamicHeight = DynamicHeight(postText);
             postText.Height = dynamicHeight;
 
@@ -92,22 +92,28 @@ namespace social_media
                 Width = textPanel.Width,
                 Height = 55,
                 BorderStyle = BorderStyle.None
+                
             };
 
             Label lblName = new Label();
-            lblName.Text = "name";
+            lblName.Text = post.Name;
             lblName.AutoSize = true;
             lblName.Margin = new Padding(0, 1, 0, 0);
             lblName.Font = new Font("Arial", 15, FontStyle.Bold);
 
             Label lblUsername = new Label();
-            lblUsername.Text = "@username";
+            lblUsername.Text = "@"+post.Username;
             lblUsername.AutoSize = true;
             lblUsername.Margin = new Padding(0, 1, 0, 0);
             lblUsername.Font = new Font("Arial", 15, FontStyle.Regular);
             lblUsername.ForeColor = Color.Gray;
 
-
+            Label lblTime = new Label();
+            lblTime.Text = post.created_at.ToString();
+            lblTime.AutoSize = true;
+            lblTime.Margin = new Padding(200, 30, 0, 0);
+            lblTime.Font = new Font("Arial", 10, FontStyle.Regular);
+            lblTime.ForeColor = Color.Gray;
 
             // RichTextBox'ı panelin içine ekle
             panel.Controls.Add(postPanel);
@@ -121,7 +127,7 @@ namespace social_media
             textPanel.Controls.Add(buttonPanel);
             buttonPanel.Controls.Add(like);
             buttonPanel.Controls.Add(comment);
-
+            buttonPanel.Controls.Add(lblTime);
 
 
         }
@@ -132,6 +138,8 @@ namespace social_media
             return (lineCount * lineHeight) + 10; // Satır sayısı * satır yüksekliği + biraz boşluk
         }
     }
+
+    
 
 
 }

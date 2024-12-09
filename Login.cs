@@ -12,6 +12,7 @@ namespace social_media
     {
         Register registerform;
         public string Username { get; set; }
+        private bool connected = true;
         public Login()
         {
             InitializeComponent();
@@ -45,12 +46,13 @@ namespace social_media
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
-
+            this.Enabled = false;
 
             // Kullanıcı adı ve şifreyi kontrol et
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Lütfen kullanıcı adı ve şifre giriniz!");
+                this.Enabled = true;
                 return;
             }
 
@@ -63,9 +65,15 @@ namespace social_media
                 main_Page.Show();
                 this.Hide();
             }
-            else
+            else if (connected)
             {
                 MessageBox.Show("Geçersiz kullanıcı adı veya şifre!");
+                this.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Bağlantı hatası");
+                this.Enabled = true;
             }
         }
 
@@ -81,6 +89,7 @@ namespace social_media
         // Kullanıcıyı doğrulayan fonksiyon
         private async Task<bool> ValidateUser(string id, string password)
         {
+            connected = true;
             using (HttpClient client = new HttpClient())
             {
                 // API'ya gönderilecek veriler
@@ -92,39 +101,48 @@ namespace social_media
 
                 // Verileri form-encoded olarak gönder
                 var content = new FormUrlEncodedContent(values);
-
                 // API'ya POST isteği gönder
-                var response = await client.PostAsync("https://oasisgamequizium.shop/OOPProject/Login.php", content);
-
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    // API yanıtını oku
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show("API Yanıtı: " + responseString); // Yanıtı kontrol etmek için ekrana yazdır
-
-                    try
+                    var response = await client.PostAsync("https://oasisgamequizium.shop/OOPProject/Login.php", content);
+                    if (response.IsSuccessStatusCode)
                     {
-                        // Yanıtı dinamik olarak JSON ayrıştır
-                        dynamic responseObject = JsonConvert.DeserializeObject(responseString);
+                        // API yanıtını oku
+                        var responseString = await response.Content.ReadAsStringAsync();
+                        MessageBox.Show("API Yanıtı: " + responseString); // Yanıtı kontrol etmek için ekrana yazdır
 
-                        if (responseObject.status == "success")
+                        try
                         {
-                            return true;
+                            // Yanıtı dinamik olarak JSON ayrıştır
+                            dynamic responseObject = JsonConvert.DeserializeObject(responseString);
+
+                            if (responseObject.status == "success")
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                MessageBox.Show((string)responseObject.message);
+                            }
                         }
-                        else
+                        catch (JsonReaderException ex)
                         {
-                            MessageBox.Show((string)responseObject.message);
+                            MessageBox.Show("JSON Ayrıştırma Hatası: " + ex.Message);
                         }
                     }
-                    catch (JsonReaderException ex)
+                    else
                     {
-                        MessageBox.Show("JSON Ayrıştırma Hatası: " + ex.Message);
+                        MessageBox.Show("API çağrısı başarısız oldu. Durum kodu: " + response.StatusCode);
                     }
                 }
-                else
+                catch
                 {
-                    MessageBox.Show("API çağrısı başarısız oldu. Durum kodu: " + response.StatusCode);
+                    MessageBox.Show("hata");
+                    connected = false;
+                    
                 }
+
+               
 
                 return false;
             }
