@@ -16,7 +16,7 @@ namespace social_media
             
             // RichTextBox oluşturma ve forma ekleme
             RichTextBox postText = new RichTextBox();
-            postText.Name = $"Post{i}";
+            postText.Name = $"text{i}";
             postText.Multiline = true; // Çok satırlı RichTextBox
             postText.ReadOnly = true; // Sadece okunabilir yap
             postText.Width = 650; // RichTextBox genişliği   
@@ -61,7 +61,9 @@ namespace social_media
                 Width = panel.Width - 30,
                 BorderStyle = BorderStyle.FixedSingle,
                 Height = dynamicHeight + 115,
+                Name = $"Post{i}"
             };
+
 
 
 

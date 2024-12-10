@@ -13,7 +13,7 @@ namespace social_media
         public string Name { get; set; }
         public string created_at { get; set; }
         public string Text { get; set; }
-        public bool isShown { get; set; }
+        public bool isShown { get; set; } = false;
 
     }
     internal class PostManager

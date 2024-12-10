@@ -22,12 +22,14 @@ namespace social_media
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
 
-        private int pre = 0;
+        private int pre_char = 0;
         private int numchar = 300;
-        private int curr;
+        private int curr_char;
         private int see = 1;
         private int list_post_num;
+        private int curr_post_num=0;
         private int randomize;
+        private int pre_list = 0;
         public Main_Page(Login loginform)
         {
             InitializeComponent();
@@ -36,6 +38,7 @@ namespace social_media
             post_structure = new post_structure();
             login = loginform;
             random = new Random();
+            lblSee.Visible = false;
         }
 
         private void Main_Page_Load(object sender, EventArgs e)
@@ -47,11 +50,13 @@ namespace social_media
         private async void LoadPosts()
         {
             await PostManager.LoadPostsAsync();
-            while (mainPanel.Controls.Count <= see * 10)
+            while (curr_post_num < see * 10)
             {
                 DisplayPosts();
+                CountPosts();
             }
             mainPanel.Controls.Add(lblSee);
+            lblSee.Visible = true;
         }
 
         private void DisplayPosts()
@@ -68,14 +73,15 @@ namespace social_media
                     post.isShown = true;
                 }
                 //Caret silme
-                RichTextBox? find = FindControlRecursive(mainPanel, $"Post{i}") as RichTextBox;
+                RichTextBox? find = FindControlRecursive(mainPanel, $"text{i}") as RichTextBox;
                 if (find != null)
                 {
                     this.MouseMove += (sender, e) => HideCaret(find.Handle);
                     find.MouseClick += (sender, e) => HideCaret(find.Handle);
                 }
 
-                if (mainPanel.Controls.Count > see*10)
+                CountPosts();
+                if (curr_post_num > (see*10)-1)
                 {
                     return;
                 }
@@ -140,6 +146,86 @@ namespace social_media
                 MessageBox.Show("Error");
         }
 
+        private void rtxbSendingPost_TextChanged(object sender, EventArgs e)
+        {
+            curr_char = rtxbSendingPost.Text.Length;
+            if (curr_char > pre_char)
+            {
+                numchar -= (curr_char - pre_char);
+                numChar.Text = numchar.ToString();
+                pre_char = curr_char;
+                if (numchar == 0)
+                {
+                    numChar.ForeColor = Color.Red;
+                }
+            }
+            else
+            {
+                numchar += (pre_char - curr_char);
+                numChar.Text = numchar.ToString();
+                pre_char = curr_char;
+                if (numchar != 0)
+                {
+                    numChar.ForeColor = Color.Black;
+                }
+            }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            lblSee.Visible = false;
+            mainPanel.Controls.Clear();
+            mainPanel.Controls.Add(lblSee);
+            see = 1;
+            curr_post_num = 0;
+            LoadPosts();
+        }
+
+        private void lblSee_Click(object sender, EventArgs e)
+        {       
+            list_post_num = PostManager.Posts.Count;
+            CountPosts();
+            if (list_post_num == curr_post_num)
+            {
+                pre_list=list_post_num;
+                MessageBox.Show("equal");
+                return;
+            }
+            see++;
+            if (list_post_num + pre_list > see * 10)
+            {
+                while (curr_post_num < see * 10)
+                {
+                    DisplayPosts();
+                    CountPosts();
+                }
+            }
+            else
+            {
+                int remain_post_num = (list_post_num + pre_list) - curr_post_num;
+                while (remain_post_num != 0)
+                {
+                    DisplayPosts();
+                    CountPosts();
+                    remain_post_num = (list_post_num + pre_list) - curr_post_num;
+                }
+            }
+            mainPanel.Controls.Add(lblSee);
+        }
+
+        private void CountPosts()
+        {
+            curr_post_num = 0;
+            foreach (Control control in mainPanel.Controls)
+            {
+                if (control.Name.Contains("Post"))
+                {
+                    curr_post_num++;
+                }
+            }
+
+        }
+
         private async Task<bool> SendPost(string username, RichTextBox richTextBox)
         {
             using (HttpClient client = new HttpClient())
@@ -192,61 +278,6 @@ namespace social_media
             }
         }
 
-        private void rtxbSendingPost_TextChanged(object sender, EventArgs e)
-        {
-            curr = rtxbSendingPost.Text.Length;
-            if (curr > pre)
-            {
-                numchar -= (curr - pre);
-                numChar.Text = numchar.ToString();
-                pre = curr;
-                if (numchar == 0)
-                {
-                    numChar.ForeColor = Color.Red;
-                }
-            }
-            else
-            {
-                numchar += (pre - curr);
-                numChar.Text = numchar.ToString();
-                pre = curr;
-                if (numchar != 0)
-                {
-                    numChar.ForeColor = Color.Black;
-                }
-            }
-        }
-
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            mainPanel.Controls.Clear();
-            mainPanel.Controls.Add(lblSee);
-            see = 1;
-            LoadPosts();
-        }
-
-        private void lblSee_Click(object sender, EventArgs e)
-        {
-            see++;
-            list_post_num = PostManager.Posts.Count;
-            if (list_post_num > see * 10)
-            {
-                while (mainPanel.Controls.Count <= see * 10)
-                {
-                    DisplayPosts();
-                }
-            }
-            else
-            {
-                int remain_post_num = list_post_num - mainPanel.Controls.Count;
-                while (remain_post_num >= 0)
-                {
-                    DisplayPosts();
-                    remain_post_num = list_post_num - mainPanel.Controls.Count;
-                }
-            }
-            mainPanel.Controls.Add(lblSee);
-
-        }
+       
     }
 }
