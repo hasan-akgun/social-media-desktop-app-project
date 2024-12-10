@@ -24,7 +24,7 @@ namespace social_media
 
         private int pre = 0;
         private int numchar = 300;
-
+        private int curr;
         public Main_Page(Login loginform)
         {
             InitializeComponent();
@@ -32,25 +32,25 @@ namespace social_media
             PostManager = new PostManager();
             post_structure = new post_structure();
             login = loginform;
-            rtxbSendingPost.TextChanged += RichTextBox_TextChanged;
+
         }
 
         private void Main_Page_Load(object sender, EventArgs e)
         {
-            lblUsername.Text = "@" + login.Username;
+            lblUsername.Text = "@" + login.Username.ToLower();
             LoadPosts();
         }
 
         private async void LoadPosts()
         {
-           await PostManager.LoadPostsAsync();
-           DisplayPosts();
+            await PostManager.LoadPostsAsync();
+            DisplayPosts();
         }
 
-        private void DisplayPosts() 
+        private void DisplayPosts()
         {
             int i = 0;
-            foreach (var post in PostManager.Posts )
+            foreach (var post in PostManager.Posts)
             {
                 i++;
                 post_structure.AddPost(mainPanel, post, i);
@@ -101,31 +101,6 @@ namespace social_media
 
         }
 
-        private void RichTextBox_TextChanged(object sender, EventArgs e)
-        {
-            int curr = rtxbSendingPost.Text.Length;
-            if (curr > pre)
-            {
-                numchar--;
-                numChar.Text = numchar.ToString();
-                pre = curr;
-                if (numchar == 0)
-                {
-                    numChar.ForeColor = Color.Red;
-                }
-            }
-            else
-            {
-                numchar++;
-                numChar.Text = numchar.ToString();
-                pre = curr;
-                if (numchar != 0)
-                {
-                    numChar.ForeColor = Color.Black;
-                }
-            }
-
-        }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
@@ -141,10 +116,11 @@ namespace social_media
 
         private async void btnSend_Click(object sender, EventArgs e)
         {
-            
+
             if (await SendPost(login.Username, rtxbSendingPost))
             {
                 MessageBox.Show("Post sent");
+                rtxbSendingPost.Rtf = null;
                 createPanel.Hide();
             }
             else
@@ -201,6 +177,37 @@ namespace social_media
 
                 return false;
             }
+        }
+
+        private void rtxbSendingPost_TextChanged(object sender, EventArgs e)
+        {
+            curr = rtxbSendingPost.Text.Length;
+            if (curr > pre)
+            {
+                numchar -= (curr - pre);
+                numChar.Text = numchar.ToString();
+                pre = curr;
+                if (numchar == 0)
+                {
+                    numChar.ForeColor = Color.Red;
+                }
+            }
+            else
+            {
+                numchar += (pre - curr);
+                numChar.Text = numchar.ToString();
+                pre = curr;
+                if (numchar != 0)
+                {
+                    numChar.ForeColor = Color.Black;
+                }
+            }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            mainPanel.Controls.Clear();
+            LoadPosts();
         }
     }
 }

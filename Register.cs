@@ -59,6 +59,10 @@ namespace social_media
                 this.Hide();
                 loginform.Show();
             }
+            else
+            {
+                this.Enabled = true;
+            }
             
         }
 
@@ -95,6 +99,7 @@ namespace social_media
 
         private async Task<bool> RegisterUser(string username, string password, string name)
         {
+            this.Enabled = false;
             using (HttpClient client = new HttpClient())
             {
                 // API'ya gönderilecek veriler
@@ -107,39 +112,47 @@ namespace social_media
 
                 // Verileri form-encoded olarak gönder
                 var content = new FormUrlEncodedContent(values);
+                try
+                {
+                    var response = await client.PostAsync("https://oasisgamequizium.shop/OOPProject/Register.php", content);
 
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // API yanýtýný oku
+                        var responseString = await response.Content.ReadAsStringAsync();
+                        MessageBox.Show("API Yanýtý: " + responseString); // Yanýtý kontrol etmek için ekrana yazdýr
+
+                        try
+                        {
+                            // Yanýtý dinamik olarak JSON ayrýþtýr
+                            dynamic responseObject = JsonConvert.DeserializeObject(responseString);
+
+                            if (responseObject.status == "success")
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                MessageBox.Show((string)responseObject.message);
+                            }
+                        }
+                        catch (JsonReaderException ex)
+                        {
+                            MessageBox.Show("JSON Ayrýþtýrma Hatasý: " + ex.Message);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("API çaðrýsý baþarýsýz oldu. Durum kodu: " + response.StatusCode);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Baðlantý Hatasý");
+                    return false;
+                }
                 // API'ya POST isteði gönder
-                var response = await client.PostAsync("https://oasisgamequizium.shop/OOPProject/Register.php", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    // API yanýtýný oku
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show("API Yanýtý: " + responseString); // Yanýtý kontrol etmek için ekrana yazdýr
-
-                    try
-                    {
-                        // Yanýtý dinamik olarak JSON ayrýþtýr
-                        dynamic responseObject = JsonConvert.DeserializeObject(responseString);
-
-                        if (responseObject.status == "success")
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            MessageBox.Show((string)responseObject.message);
-                        }
-                    }
-                    catch (JsonReaderException ex)
-                    {
-                        MessageBox.Show("JSON Ayrýþtýrma Hatasý: " + ex.Message);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("API çaðrýsý baþarýsýz oldu. Durum kodu: " + response.StatusCode);
-                }
+                
 
                 return false;
             }

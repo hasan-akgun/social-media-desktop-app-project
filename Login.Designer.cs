@@ -38,6 +38,8 @@
             txtUsername = new TextBox();
             lbUsername = new Label();
             lblLogin = new Label();
+            gifloading = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)gifloading).BeginInit();
             SuspendLayout();
             // 
             // lblCreateAccount
@@ -182,12 +184,24 @@
             lblLogin.Text = "LOGIN";
             lblLogin.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // gifloading
+            // 
+            gifloading.BackColor = Color.Transparent;
+            gifloading.Image = Properties.Resources.loading;
+            gifloading.Location = new Point(206, 93);
+            gifloading.Name = "gifloading";
+            gifloading.Size = new Size(74, 68);
+            gifloading.SizeMode = PictureBoxSizeMode.CenterImage;
+            gifloading.TabIndex = 24;
+            gifloading.TabStop = false;
+            // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(486, 682);
+            Controls.Add(gifloading);
             Controls.Add(lblCreateAccount);
             Controls.Add(lblDontHave);
             Controls.Add(btnClear);
@@ -203,6 +217,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
             Load += Login_Load;
+            ((System.ComponentModel.ISupportInitialize)gifloading).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -219,5 +234,6 @@
         private TextBox txtUsername;
         private Label lbUsername;
         private Label lblLogin;
+        private PictureBox gifloading;
     }
 }

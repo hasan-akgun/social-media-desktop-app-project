@@ -53,6 +53,7 @@
             btnSad = new Button();
             btnCry = new Button();
             btnThankfull = new Button();
+            btnReset = new Button();
             ((System.ComponentModel.ISupportInitialize)userAvatar).BeginInit();
             flowLayoutPanel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
@@ -199,7 +200,7 @@
             btnClear.Anchor = AnchorStyles.Left;
             btnClear.BackColor = Color.White;
             btnClear.FlatStyle = FlatStyle.Flat;
-            btnClear.Location = new Point(10, 150);
+            btnClear.Location = new Point(10, 155);
             btnClear.Margin = new Padding(10, 0, 0, 0);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(60, 60);
@@ -213,7 +214,7 @@
             btnSend.Anchor = AnchorStyles.Left;
             btnSend.BackColor = Color.White;
             btnSend.FlatStyle = FlatStyle.Flat;
-            btnSend.Location = new Point(736, 150);
+            btnSend.Location = new Point(736, 155);
             btnSend.Margin = new Padding(0);
             btnSend.Name = "btnSend";
             btnSend.Size = new Size(60, 60);
@@ -224,13 +225,19 @@
             // 
             // button1
             // 
+            button1.AutoSize = true;
+            button1.BackColor = Color.White;
+            button1.FlatAppearance.BorderColor = Color.Black;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Arial Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            button1.ForeColor = Color.Red;
             button1.Location = new Point(766, 3);
             button1.Margin = new Padding(30, 3, 3, 3);
             button1.Name = "button1";
-            button1.Size = new Size(30, 29);
+            button1.Size = new Size(32, 34);
             button1.TabIndex = 1;
             button1.Text = "x";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // rtxbSendingPost
@@ -238,18 +245,19 @@
             rtxbSendingPost.AutoWordSelection = true;
             rtxbSendingPost.BorderStyle = BorderStyle.None;
             rtxbSendingPost.Font = new Font("Arial", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            rtxbSendingPost.Location = new Point(78, 38);
+            rtxbSendingPost.Location = new Point(78, 43);
             rtxbSendingPost.MaxLength = 300;
             rtxbSendingPost.Name = "rtxbSendingPost";
             rtxbSendingPost.Size = new Size(650, 285);
             rtxbSendingPost.TabIndex = 0;
             rtxbSendingPost.Text = "";
+            rtxbSendingPost.TextChanged += rtxbSendingPost_TextChanged;
             // 
             // numChar
             // 
             numChar.AutoSize = true;
             numChar.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            numChar.Location = new Point(739, 326);
+            numChar.Location = new Point(739, 331);
             numChar.Name = "numChar";
             numChar.Size = new Size(43, 24);
             numChar.TabIndex = 9;
@@ -264,7 +272,7 @@
             flowLayoutPanel3.Controls.Add(btnSad);
             flowLayoutPanel3.Controls.Add(btnCry);
             flowLayoutPanel3.Controls.Add(btnThankfull);
-            flowLayoutPanel3.Location = new Point(78, 329);
+            flowLayoutPanel3.Location = new Point(78, 334);
             flowLayoutPanel3.Name = "flowLayoutPanel3";
             flowLayoutPanel3.Size = new Size(655, 73);
             flowLayoutPanel3.TabIndex = 8;
@@ -381,6 +389,20 @@
             btnThankfull.Text = "🙏";
             btnThankfull.UseVisualStyleBackColor = false;
             // 
+            // btnReset
+            // 
+            btnReset.Anchor = AnchorStyles.Left;
+            btnReset.BackColor = Color.White;
+            btnReset.FlatStyle = FlatStyle.Flat;
+            btnReset.Location = new Point(480, 42);
+            btnReset.Margin = new Padding(10, 0, 0, 0);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(60, 60);
+            btnReset.TabIndex = 12;
+            btnReset.Text = "Reset";
+            btnReset.UseVisualStyleBackColor = false;
+            btnReset.Click += btnReset_Click;
+            // 
             // Main_Page
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -388,6 +410,7 @@
             AutoSize = true;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(btnReset);
             Controls.Add(createPanel);
             Controls.Add(createPostButton);
             Controls.Add(flowLayoutPanel2);
@@ -440,5 +463,6 @@
         private Button btnSad;
         private Button btnCry;
         private Button btnThankfull;
+        private Button btnReset;
     }
 }

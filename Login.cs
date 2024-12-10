@@ -23,6 +23,8 @@ namespace social_media
         private void Login_Load(object sender, EventArgs e)
         {
             registerform = new Register();
+            gifloading.Visible = false;
+            gifloading.Enabled = false;
         }
 
         private void chkPassword_CheckedChanged(object sender, EventArgs e)
@@ -46,11 +48,11 @@ namespace social_media
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
-            this.Enabled = false;
-
+            LoadingScreen(true);
             // Kullanıcı adı ve şifreyi kontrol et
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
+                LoadingScreen(false);
                 MessageBox.Show("Lütfen kullanıcı adı ve şifre giriniz!");
                 this.Enabled = true;
                 return;
@@ -59,6 +61,7 @@ namespace social_media
             // Kullanıcı doğrulama
             if (await ValidateUser(username, password))
             {
+                LoadingScreen(false);
                 Username = username;
                 MessageBox.Show("Giriş Başarılı!");
                 Main_Page main_Page = new Main_Page(this);
@@ -67,16 +70,33 @@ namespace social_media
             }
             else if (connected)
             {
+                LoadingScreen(false);
                 MessageBox.Show("Geçersiz kullanıcı adı veya şifre!");
-                this.Enabled = true;
+                txtPassword.Clear();
+                txtUsername.Clear();
             }
             else
             {
+                LoadingScreen(false);
                 MessageBox.Show("Bağlantı hatası");
-                this.Enabled = true;
             }
         }
 
+        private void LoadingScreen(bool on)
+        {
+            lblCreateAccount.Enabled = !on;
+            lblPassword.Enabled = !on;
+            lblLogin.Enabled = !on;
+            lblDontHave.Enabled = !on;
+            lbUsername.Enabled = !on;
+            txtPassword.Enabled = !on;
+            txtUsername.Enabled = !on;
+            chkPassword.Enabled = !on;
+            btnClear.Enabled = !on;
+            btnLogin.Enabled = !on;
+            gifloading.Enabled = on;
+            gifloading.Visible = on;
+        }
 
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -109,7 +129,6 @@ namespace social_media
                     {
                         // API yanıtını oku
                         var responseString = await response.Content.ReadAsStringAsync();
-                        MessageBox.Show("API Yanıtı: " + responseString); // Yanıtı kontrol etmek için ekrana yazdır
 
                         try
                         {
@@ -130,20 +149,14 @@ namespace social_media
                             MessageBox.Show("JSON Ayrıştırma Hatası: " + ex.Message);
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("API çağrısı başarısız oldu. Durum kodu: " + response.StatusCode);
-                    }
+
                 }
                 catch
                 {
                     MessageBox.Show("hata");
                     connected = false;
                     
-                }
-
-               
-
+                }           
                 return false;
             }
         }
