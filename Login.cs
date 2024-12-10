@@ -17,7 +17,7 @@ namespace social_media
         {
             InitializeComponent();
             txtPassword.KeyPress += TextBox_KeyPress;
-
+            
         }
 
         private void Login_Load(object sender, EventArgs e)

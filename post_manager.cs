@@ -13,7 +13,8 @@ namespace social_media
         public string Name { get; set; }
         public string created_at { get; set; }
         public string Text { get; set; }
-        
+        public bool isShown { get; set; }
+
     }
     internal class PostManager
     {
@@ -39,11 +40,9 @@ namespace social_media
                 {
                     MessageBox.Show("Bağlandı");
                     var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseString);
-
                     if (apiResponse.Status == "success")
                     {
-                        return apiResponse.Data;
-                        
+                        return apiResponse.Data;                       
                     }
                     else
                     {

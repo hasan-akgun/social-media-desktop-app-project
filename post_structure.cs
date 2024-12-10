@@ -109,7 +109,7 @@ namespace social_media
             lblUsername.ForeColor = Color.Gray;
 
             Label lblTime = new Label();
-            lblTime.Text = post.created_at.ToString();
+            lblTime.Text = post.created_at;
             lblTime.AutoSize = true;
             lblTime.Margin = new Padding(200, 30, 0, 0);
             lblTime.Font = new Font("Arial", 10, FontStyle.Regular);

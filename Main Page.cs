@@ -18,13 +18,16 @@ namespace social_media
         PostManager PostManager;
         post_structure post_structure;
         Login login;
-
+        Random random;
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
 
         private int pre = 0;
         private int numchar = 300;
         private int curr;
+        private int see = 1;
+        private int list_post_num;
+        private int randomize;
         public Main_Page(Login loginform)
         {
             InitializeComponent();
@@ -32,7 +35,7 @@ namespace social_media
             PostManager = new PostManager();
             post_structure = new post_structure();
             login = loginform;
-
+            random = new Random();
         }
 
         private void Main_Page_Load(object sender, EventArgs e)
@@ -44,7 +47,11 @@ namespace social_media
         private async void LoadPosts()
         {
             await PostManager.LoadPostsAsync();
-            DisplayPosts();
+            while (mainPanel.Controls.Count <= see * 10)
+            {
+                DisplayPosts();
+            }
+            mainPanel.Controls.Add(lblSee);
         }
 
         private void DisplayPosts()
@@ -52,9 +59,14 @@ namespace social_media
             int i = 0;
             foreach (var post in PostManager.Posts)
             {
+                randomize = random.Next(1, 5);
                 i++;
-                post_structure.AddPost(mainPanel, post, i);
 
+                if (!post.isShown && randomize == 2)
+                {
+                    post_structure.AddPost(mainPanel, post, i);
+                    post.isShown = true;
+                }
                 //Caret silme
                 RichTextBox? find = FindControlRecursive(mainPanel, $"Post{i}") as RichTextBox;
                 if (find != null)
@@ -62,9 +74,10 @@ namespace social_media
                     this.MouseMove += (sender, e) => HideCaret(find.Handle);
                     find.MouseClick += (sender, e) => HideCaret(find.Handle);
                 }
-                else
+
+                if (mainPanel.Controls.Count > see*10)
                 {
-                    MessageBox.Show("");
+                    return;
                 }
 
             };
@@ -207,7 +220,33 @@ namespace social_media
         private void btnReset_Click(object sender, EventArgs e)
         {
             mainPanel.Controls.Clear();
+            mainPanel.Controls.Add(lblSee);
+            see = 1;
             LoadPosts();
+        }
+
+        private void lblSee_Click(object sender, EventArgs e)
+        {
+            see++;
+            list_post_num = PostManager.Posts.Count;
+            if (list_post_num > see * 10)
+            {
+                while (mainPanel.Controls.Count <= see * 10)
+                {
+                    DisplayPosts();
+                }
+            }
+            else
+            {
+                int remain_post_num = list_post_num - mainPanel.Controls.Count;
+                while (remain_post_num >= 0)
+                {
+                    DisplayPosts();
+                    remain_post_num = list_post_num - mainPanel.Controls.Count;
+                }
+            }
+            mainPanel.Controls.Add(lblSee);
+
         }
     }
 }

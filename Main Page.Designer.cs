@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             mainPanel = new FlowLayoutPanel();
+            lblSee = new Label();
             userAvatar = new PictureBox();
             label1 = new Label();
             lblUsername = new Label();
@@ -54,6 +55,7 @@
             btnCry = new Button();
             btnThankfull = new Button();
             btnReset = new Button();
+            mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)userAvatar).BeginInit();
             flowLayoutPanel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
@@ -64,10 +66,24 @@
             // mainPanel
             // 
             mainPanel.AutoScroll = true;
+            mainPanel.Controls.Add(lblSee);
             mainPanel.Location = new Point(553, 42);
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(828, 923);
             mainPanel.TabIndex = 0;
+            // 
+            // lblSee
+            // 
+            lblSee.Cursor = Cursors.Hand;
+            lblSee.Font = new Font("Arial", 15F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lblSee.ForeColor = Color.Navy;
+            lblSee.Location = new Point(3, 0);
+            lblSee.Name = "lblSee";
+            lblSee.Size = new Size(798, 68);
+            lblSee.TabIndex = 13;
+            lblSee.Text = "See more";
+            lblSee.TextAlign = ContentAlignment.MiddleCenter;
+            lblSee.Click += lblSee_Click;
             // 
             // userAvatar
             // 
@@ -423,6 +439,7 @@
             Text = "Main_Page";
             WindowState = FormWindowState.Maximized;
             Load += Main_Page_Load;
+            mainPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)userAvatar).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
@@ -464,5 +481,6 @@
         private Button btnCry;
         private Button btnThankfull;
         private Button btnReset;
+        private Label lblSee;
     }
 }
